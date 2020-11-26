@@ -16,8 +16,7 @@ dependencies:
   flutter:
     sdk: flutter
   collection: ^1.14.0
-  nested:
-    path: ../nested
+  nested: ^0.0.5-nullsafety.1
 
 dev_dependencies:
   mockito: ^4.0.0
