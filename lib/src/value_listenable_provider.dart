@@ -20,12 +20,12 @@ class ValueListenableProvider<T>
   ///   * [ListenableProvider], similar to [ValueListenableProvider] but for any
   /// kind of [Listenable].
   ValueListenableProvider({
-    Key key,
-    @required Create<ValueNotifier<T>> create,
-    UpdateShouldNotify<T> updateShouldNotify,
-    bool lazy,
-    TransitionBuilder builder,
-    Widget child,
+    required Key key,
+    required Create<ValueNotifier<T>> create,
+    UpdateShouldNotify<T>? updateShouldNotify,
+    bool? lazy,
+    TransitionBuilder? builder,
+    required Widget child,
   }) : super(
           key: key,
           create: create,
@@ -52,11 +52,11 @@ class ValueListenableProvider<T>
   /// );
   /// ```
   ValueListenableProvider.value({
-    Key key,
-    @required ValueListenable<T> value,
-    UpdateShouldNotify<T> updateShouldNotify,
-    TransitionBuilder builder,
-    Widget child,
+    required Key key,
+    required ValueListenable<T> value,
+    UpdateShouldNotify<T>? updateShouldNotify,
+    TransitionBuilder? builder,
+    required Widget child,
   }) : super.value(
           key: key,
           builder: builder,
@@ -66,17 +66,18 @@ class ValueListenableProvider<T>
           child: child,
         );
 
-  static void _dispose(BuildContext context, ValueListenable<Object> notifier) {
+  static void _dispose(
+      BuildContext context, ValueListenable<Object?>? notifier) {
     if (notifier is ValueNotifier) {
       notifier.dispose();
     }
   }
 
-  static DeferredStartListening<ValueListenable<T>, T> _startListening<T>() {
+  static DeferredStartListening<ValueListenable<T>?, T> _startListening<T>() {
     return (_, setState, controller, __) {
-      setState(controller.value);
+      setState(controller!.value);
 
-      void listener() => setState(controller.value);
+      final listener = () => setState(controller.value);
       controller.addListener(listener);
       return () => controller.removeListener(listener);
     };
